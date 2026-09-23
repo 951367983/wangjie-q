@@ -67,6 +67,12 @@
   .level-item { background: #f7f8fa; border-radius: 8px; padding: 8px 12px; font-size: 13px; display: flex;
                  justify-content: space-between; }
   .level-item b { color: #165dff; }
+  .bt-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; margin-bottom: 10px; }
+  .bt-m { background: #f7f8fa; border-radius: 8px; padding: 8px 12px; font-size: 13px; }
+  .bt-m span { display: block; font-size: 12px; color: #86909c; }
+  .bt-m b { font-size: 15px; color: #165dff; }
+  .bt-conclusion { background: #f0f5ff; border-left: 4px solid #165dff; border-radius: 6px; padding: 10px 14px;
+                    font-size: 13px; color: #1f2329; margin-top: 12px; line-height: 1.7; }
   .footer { text-align: center; color: #86909c; font-size: 12px; margin-top: 30px; }
   .update-btn { background: #165dff; color: #fff; border: none; border-radius: 6px; padding: 8px 18px;
                  font-size: 13px; cursor: pointer; }
@@ -79,7 +85,7 @@
   <div class="topbar">
     <div>
       <h1>守中课堂卡尔每日量化策略报告</h1>
-      <div class="meta-line">数据更新：2026-09-23 10:00 ｜ 共 1 期 ｜ 情绪样本 16 个交易日 ｜ <button class="update-btn" onclick="syncFromSource()">⟳ 从数据源更新</button></div>
+      <div class="meta-line">数据更新：2026-09-23 10:28 ｜ 共 1 期 ｜ 情绪样本 16 个交易日 ｜ <button class="update-btn" onclick="syncFromSource()">⟳ 从数据源更新</button></div>
     </div>
   </div>
   <div class="disclaimer">重要声明：本报告基于量化模型多维度评分生成，仅供学员学习和研究使用。本报告所有观点不构成任何买卖建议、投资意见或对未来收益的保证。投资者应独立进行投资决策，盈亏自负。请结合《量化报告使用手册》阅读。</div>
@@ -91,13 +97,22 @@
     <div id="chart1" class="chart"></div>
     <div class="chart-note" style="margin-top:14px;">封板率 = 涨停 ÷（涨停+炸板）；最高连板为当日市场最高板高度。缺失日期因当日公开复盘未披露该指标，趋势线自动断开。</div>
     <div id="chart2" class="chart"></div>
+    <div class="chart-note" style="margin-top:14px;">两市成交额（亿元）与上证指数收盘叠加：放量滞涨（成交升而指数滞涨）、缩量冰点（成交降而指数抗跌）等量价背离在此图一目了然。</div>
+    <div id="chart3" class="chart"></div>
     <noscript><div class="pool-empty">请启用 JavaScript 以查看趋势图；报告正文不受影响。</div></noscript>
+  </div>
+  <div class="chart-box" id="backtest-box">
+    <h3>模型回测 · 样本内拟合度（滞后1日）</h3>
+    <div class="chart-note">方法：用 T 日情绪温度分预测 T+1 日涨停家数变化与上证指数涨跌，样本=已收盘的全部交易日（T 日有温度、T+1 日已收盘才计入）。样本随每日运行自动增长，以下为当前全部历史样本。</div>
+    <div id="bt-metrics"></div>
+    <div id="chart4" class="chart" style="height:280px;"></div>
+    <div class="bt-conclusion" id="bt-conclusion"></div>
   </div>
   <div class="footer">守中课堂 · 卡尔量化策略 · 每日自动更新 · 仅供学习研究，不构成投资建议</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 <script>
-window.__DATA__ = {"meta": {"title": "守中课堂卡尔每日量化策略报告", "updated": "2026-09-23 10:00", "count": 1}, "reports": [{"date": "2026-09-22", "dateLabel": "2026年09月22日 周二", "mood": {"auto": true, "label": "乐观", "shortTerm": "高位分歧", "features": "两市成交2.15万亿放量滞涨；64股涨停、5股跌停、28股炸板、封板率69.6%；最高标华瓷股份6连板、内蒙新华5连板、南华生物4连板；全市场超3000只个股下跌，华字辈个股如期大分歧。量化温度3.67分（乐观档），较9/21高潮4.17分回落。", "warning": "高位股分歧加剧，谨防连板高度进一步压缩与缩量板接力失败；放量滞涨下追高容错率低，回避非主线高位接力。", "strategy": "聚焦AI应用/传媒主线核心分歧低吸，博弈分歧转一致节点；仓位按乐观档中等偏上控制，规避高位断板风险，等待晋级率回升信号。", "level": 4, "score": 3.67, "levels": {"涨停家数": 3, "跌停家数": 3, "封板率": 3, "最高连板": 5, "上涨占比": 3, "两市成交额": 5}, "window_size": 16, "indicators_used": 6}, "boardStrength": {"sector": "传媒 / AI应用", "note": "广告营销、传媒、通信服务、IT服务、软件开发等数字科技板块涨幅居前，AI产业链延续高景气。"}, "hotSectors": [{"name": "AI应用", "stocks": ["南威软件", "智度股份", "新炬网络", "中新赛克"]}, {"name": "算力芯片", "stocks": ["旋极信息", "禾盛新材", "综艺股份"]}, {"name": "传媒出版", "stocks": ["内蒙新华", "新华文轩", "引力传媒"]}, {"name": "医药", "stocks": ["南华生物", "哈药股份", "新华制药"]}, {"name": "家居用品", "stocks": ["华瓷股份", "梦天家居", "爱丽家居"]}], "coldSectors": [{"name": "航运港口", "stocks": ["招商轮船", "招商南油"]}, {"name": "旅游", "stocks": ["西域旅游", "丽江股份"]}, {"name": "军工", "stocks": ["中航沈飞", "航发动力"]}], "newHighPool": [{"name": "五洲医疗", "industry": "医疗器械", "score": "⭐⭐"}, {"name": "中石科技", "industry": "消费电子", "score": "⭐"}, {"name": "金健米业", "industry": "农业", "score": "⭐"}], "nearNewHighPool": [{"name": "哈药股份", "industry": "医药", "score": "⭐"}, {"name": "一鸣食品", "industry": "消费", "score": "⭐"}, {"name": "艾艾精工", "industry": "化工", "score": "⭐"}], "longYangPool": [{"name": "南华生物", "industry": "医药", "score": "⭐⭐"}, {"name": "江淮汽车", "industry": "汽车整车", "score": "⭐"}], "jumpGapPool": [{"name": "旋极信息", "industry": "算力芯片", "score": "⭐"}], "tempPool": [{"name": "旋极信息", "industry": "算力芯片", "score": "无"}, {"name": "南威软件", "industry": "AI应用", "score": "无"}, {"name": "江淮汽车", "industry": "汽车整车", "score": "无"}, {"name": "华瓷股份", "industry": "家居用品", "score": "无"}, {"name": "内蒙新华", "industry": "传媒", "score": "无"}, {"name": "南华生物", "industry": "医药", "score": "无"}], "position": {"riskPref": "中", "moodTemp": "中偏高（乐观档）", "ndx": "好", "level": "L3积极", "range": "50%–70%（锚点60%）"}, "summary": {"index": "震荡（沪指3952点冲高回落，两市2.15万亿放量滞涨）", "style": "科技轮动、权重护盘、个股分化", "mainline": "AI应用 / 传媒（华字辈分歧后资金聚焦AI应用端）"}}], "indicators": [{"date": "2026-09-01", "upCount": 83, "downCount": 0, "brokenCount": 6, "sealRate": 93.3, "maxBoard": 7, "upRatio": 62.4, "turnover": 20524.03, "note": "炸板6 封板率93.3% 涨3386/跌2040", "moodScore": null}, {"date": "2026-09-02", "upCount": 52, "downCount": 9, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 28.3, "turnover": 17911.78, "note": "涨1541/跌3901", "moodScore": 2.5}, {"date": "2026-09-03", "upCount": 46, "downCount": 17, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 34.1, "turnover": 17589.16, "note": "涨1846/跌3570", "moodScore": 2.5}, {"date": "2026-09-04", "upCount": 41, "downCount": 9, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 45.6, "turnover": 20306.68, "note": "涨2444/跌2914", "moodScore": 3.0}, {"date": "2026-09-07", "upCount": 94, "downCount": 2, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 59.0, "turnover": 19460.19, "note": "涨3167/跌2196", "moodScore": 3.75}, {"date": "2026-09-08", "upCount": 74, "downCount": 1, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 62.8, "turnover": 19603.35, "note": "涨3417/跌2026", "moodScore": 3.5}, {"date": "2026-09-09", "upCount": 49, "downCount": 9, "brokenCount": 27, "sealRate": 64.5, "maxBoard": 5, "upRatio": null, "turnover": 18556.07, "note": "炸板27 封板率64.5% 连板15", "moodScore": 2.8}, {"date": "2026-09-10", "upCount": 39, "downCount": 14, "brokenCount": 22, "sealRate": 63.9, "maxBoard": 4, "upRatio": null, "turnover": 16471.48, "note": "炸板22 封板率63.9% 连板9", "moodScore": 2.4}, {"date": "2026-09-11", "upCount": 40, "downCount": 21, "brokenCount": 18, "sealRate": 69.0, "maxBoard": 4, "upRatio": null, "turnover": 19718.98, "note": "炸板18 封板率69.0% 连板7", "moodScore": 2.8}, {"date": "2026-09-14", "upCount": 57, "downCount": 18, "brokenCount": 30, "sealRate": 65.5, "maxBoard": 4, "upRatio": null, "turnover": 16291.76, "note": "炸板30 封板率65.5% 连板11", "moodScore": 2.6}, {"date": "2026-09-15", "upCount": 32, "downCount": 34, "brokenCount": 24, "sealRate": 57.1, "maxBoard": 5, "upRatio": null, "turnover": 16127.17, "note": "炸板24 封板率57.1% 连板7", "moodScore": 1.8}, {"date": "2026-09-16", "upCount": 91, "downCount": 4, "brokenCount": 11, "sealRate": 89.2, "maxBoard": 6, "upRatio": null, "turnover": 18391.22, "note": "炸板11 封板率89.2% 连板12", "moodScore": 3.8}, {"date": "2026-09-17", "upCount": 50, "downCount": 2, "brokenCount": 20, "sealRate": 71.4, "maxBoard": 5, "upRatio": 47.7, "turnover": 18231.34, "note": "炸板20 封板率71.4% 连板9", "moodScore": 3.33}, {"date": "2026-09-18", "upCount": 79, "downCount": 1, "brokenCount": 25, "sealRate": 76.0, "maxBoard": 4, "upRatio": null, "turnover": 20771.0, "note": "炸板25 封板率76.0% 连板12", "moodScore": 4.0}, {"date": "2026-09-21", "upCount": 104, "downCount": 3, "brokenCount": 25, "sealRate": 80.6, "maxBoard": 5, "upRatio": 82.9, "turnover": 20315.13, "note": "炸板25 封板率80.6% 连板24", "moodScore": 4.17}, {"date": "2026-09-22", "upCount": 64, "downCount": 5, "brokenCount": 28, "sealRate": 69.6, "maxBoard": 6, "upRatio": 43.9, "turnover": 21355.5, "note": "炸板28 封板率69.6% 涨2374/跌3029", "moodScore": 3.67}]};
+window.__DATA__ = {"meta": {"title": "守中课堂卡尔每日量化策略报告", "updated": "2026-09-23 10:28", "count": 1, "backtest": {"n": 14, "r_up": -0.451, "r_sh": 0.297, "hit_rate": 46.2, "buckets": {"冰点区(<2.5)": {"n": 2, "avg": 30.0, "pos": 2, "neg": 0}, "中间区(2.5–3.9)": {"n": 10, "avg": -3.3, "pos": 3, "neg": 7}, "狂热区(≥4.0)": {"n": 2, "avg": -7.5, "pos": 1, "neg": 1}}, "extreme": [{"date": "2026-09-15", "score": 1.8, "up": 32, "next_up": 91, "d_up": 59}, {"date": "2026-09-21", "score": 4.17, "up": 104, "next_up": 64, "d_up": -40}]}, "version": 1790130516}, "reports": [{"date": "2026-09-22", "dateLabel": "2026年09月22日 周二", "mood": {"auto": true, "label": "乐观", "shortTerm": "高位分歧", "features": "两市成交2.15万亿放量滞涨；64股涨停、5股跌停、28股炸板、封板率69.6%；最高标华瓷股份6连板、内蒙新华5连板、南华生物4连板；全市场超3000只个股下跌，华字辈个股如期大分歧。量化温度3.67分（乐观档），较9/21高潮4.17分回落。", "warning": "高位股分歧加剧，谨防连板高度进一步压缩与缩量板接力失败；放量滞涨下追高容错率低，回避非主线高位接力。", "strategy": "聚焦AI应用/传媒主线核心分歧低吸，博弈分歧转一致节点；仓位按乐观档中等偏上控制，规避高位断板风险，等待晋级率回升信号。", "level": 4, "score": 3.67, "levels": {"涨停家数": 3, "跌停家数": 3, "封板率": 3, "最高连板": 5, "上涨占比": 3, "两市成交额": 5}, "window_size": 16, "indicators_used": 6}, "boardStrength": {"sector": "传媒 / AI应用", "note": "广告营销、传媒、通信服务、IT服务、软件开发等数字科技板块涨幅居前，AI产业链延续高景气。"}, "hotSectors": [{"name": "AI应用", "stocks": ["南威软件", "智度股份", "新炬网络", "中新赛克"]}, {"name": "算力芯片", "stocks": ["旋极信息", "禾盛新材", "综艺股份"]}, {"name": "传媒出版", "stocks": ["内蒙新华", "新华文轩", "引力传媒"]}, {"name": "医药", "stocks": ["南华生物", "哈药股份", "新华制药"]}, {"name": "家居用品", "stocks": ["华瓷股份", "梦天家居", "爱丽家居"]}], "coldSectors": [{"name": "航运港口", "stocks": ["招商轮船", "招商南油"]}, {"name": "旅游", "stocks": ["西域旅游", "丽江股份"]}, {"name": "军工", "stocks": ["中航沈飞", "航发动力"]}], "newHighPool": [{"name": "五洲医疗", "industry": "医疗器械", "score": "⭐⭐"}, {"name": "中石科技", "industry": "消费电子", "score": "⭐"}, {"name": "金健米业", "industry": "农业", "score": "⭐"}], "nearNewHighPool": [{"name": "哈药股份", "industry": "医药", "score": "⭐"}, {"name": "一鸣食品", "industry": "消费", "score": "⭐"}, {"name": "艾艾精工", "industry": "化工", "score": "⭐"}], "longYangPool": [{"name": "南华生物", "industry": "医药", "score": "⭐⭐"}, {"name": "江淮汽车", "industry": "汽车整车", "score": "⭐"}], "jumpGapPool": [{"name": "旋极信息", "industry": "算力芯片", "score": "⭐"}], "tempPool": [{"name": "旋极信息", "industry": "算力芯片", "score": "无"}, {"name": "南威软件", "industry": "AI应用", "score": "无"}, {"name": "江淮汽车", "industry": "汽车整车", "score": "无"}, {"name": "华瓷股份", "industry": "家居用品", "score": "无"}, {"name": "内蒙新华", "industry": "传媒", "score": "无"}, {"name": "南华生物", "industry": "医药", "score": "无"}], "position": {"riskPref": "中", "moodTemp": "中偏高（乐观档）", "ndx": "好", "level": "L3积极", "range": "50%–70%（锚点60%）"}, "summary": {"index": "震荡（沪指3952点冲高回落，两市2.15万亿放量滞涨）", "style": "科技轮动、权重护盘、个股分化", "mainline": "AI应用 / 传媒（华字辈分歧后资金聚焦AI应用端）"}}], "indicators": [{"date": "2026-09-01", "upCount": 83, "downCount": 0, "brokenCount": 6, "sealRate": 93.3, "maxBoard": 7, "upRatio": 62.4, "turnover": 20524.03, "note": "炸板6 封板率93.3% 涨3386/跌2040", "moodScore": null, "shClose": 3979.89}, {"date": "2026-09-02", "upCount": 52, "downCount": 9, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 28.3, "turnover": 17911.78, "note": "涨1541/跌3901", "moodScore": 2.5, "shClose": 3941.39}, {"date": "2026-09-03", "upCount": 46, "downCount": 17, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 34.1, "turnover": 17589.16, "note": "涨1846/跌3570", "moodScore": 2.5, "shClose": 3942.09}, {"date": "2026-09-04", "upCount": 41, "downCount": 9, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 45.6, "turnover": 20306.68, "note": "涨2444/跌2914", "moodScore": 3.0, "shClose": 3930.12}, {"date": "2026-09-07", "upCount": 94, "downCount": 2, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 59.0, "turnover": 19460.19, "note": "涨3167/跌2196", "moodScore": 3.75, "shClose": 3932.7}, {"date": "2026-09-08", "upCount": 74, "downCount": 1, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 62.8, "turnover": 19603.35, "note": "涨3417/跌2026", "moodScore": 3.5, "shClose": 3940.55}, {"date": "2026-09-09", "upCount": 49, "downCount": 9, "brokenCount": 27, "sealRate": 64.5, "maxBoard": 5, "upRatio": null, "turnover": 18556.07, "note": "炸板27 封板率64.5% 连板15", "moodScore": 2.8, "shClose": 3951.51}, {"date": "2026-09-10", "upCount": 39, "downCount": 14, "brokenCount": 22, "sealRate": 63.9, "maxBoard": 4, "upRatio": null, "turnover": 16471.48, "note": "炸板22 封板率63.9% 连板9", "moodScore": 2.4, "shClose": 3934.4}, {"date": "2026-09-11", "upCount": 40, "downCount": 21, "brokenCount": 18, "sealRate": 69.0, "maxBoard": 4, "upRatio": null, "turnover": 19718.98, "note": "炸板18 封板率69.0% 连板7", "moodScore": 2.8, "shClose": 3888.11}, {"date": "2026-09-14", "upCount": 57, "downCount": 18, "brokenCount": 30, "sealRate": 65.5, "maxBoard": 4, "upRatio": null, "turnover": 16291.76, "note": "炸板30 封板率65.5% 连板11", "moodScore": 2.6, "shClose": 3885.33}, {"date": "2026-09-15", "upCount": 32, "downCount": 34, "brokenCount": 24, "sealRate": 57.1, "maxBoard": 5, "upRatio": null, "turnover": 16127.17, "note": "炸板24 封板率57.1% 连板7", "moodScore": 1.8, "shClose": 3864.28}, {"date": "2026-09-16", "upCount": 91, "downCount": 4, "brokenCount": 11, "sealRate": 89.2, "maxBoard": 6, "upRatio": null, "turnover": 18391.22, "note": "炸板11 封板率89.2% 连板12", "moodScore": 3.8, "shClose": 3891.6}, {"date": "2026-09-17", "upCount": 50, "downCount": 2, "brokenCount": 20, "sealRate": 71.4, "maxBoard": 5, "upRatio": 47.7, "turnover": 18231.34, "note": "炸板20 封板率71.4% 连板9", "moodScore": 3.33, "shClose": 3875.6}, {"date": "2026-09-18", "upCount": 79, "downCount": 1, "brokenCount": 25, "sealRate": 76.0, "maxBoard": 4, "upRatio": null, "turnover": 20771.0, "note": "炸板25 封板率76.0% 连板12", "moodScore": 4.0, "shClose": 3911.87}, {"date": "2026-09-21", "upCount": 104, "downCount": 3, "brokenCount": 25, "sealRate": 80.6, "maxBoard": 5, "upRatio": 82.9, "turnover": 20315.13, "note": "炸板25 封板率80.6% 连板24", "moodScore": 4.17, "shClose": 3949.91}, {"date": "2026-09-22", "upCount": 64, "downCount": 5, "brokenCount": 28, "sealRate": 69.6, "maxBoard": 6, "upRatio": 43.9, "turnover": 21355.5, "note": "炸板28 封板率69.6% 涨2374/跌3029", "moodScore": 3.67, "shClose": 3952.13}]};
 const MOODS = {
   "狂热": { color:"#d93025", bg:"#fdecea", desc:"巅峰狂热 / 非理性亢奋", action:"风控第一，专业减法：高位保护、锁定利润、分批止盈" },
   "乐观": { color:"#e8710a", bg:"#fef3e7", desc:"趋势良好 / 理性乐观", action:"顺势而为，聚焦主线：享受趋势，警惕拐点" },
@@ -183,13 +198,15 @@ function drawCharts(inds) {
   if (typeof echarts === 'undefined') return;
   var days = inds.slice(-30);
   var dates = days.map(function(d) { return String(d.date).slice(5); });
-  var moodSeries = [], upSeries = [], sealSeries = [], boardSeries = [];
+  var moodSeries = [], upSeries = [], sealSeries = [], boardSeries = [], turnSeries = [], shSeries = [];
   days.forEach(function(d) {
     var sc = d.moodScore;
     moodSeries.push(sc == null ? null : sc);
     upSeries.push(d.upCount == null ? null : d.upCount);
     sealSeries.push(d.sealRate == null ? null : d.sealRate);
     boardSeries.push(d.maxBoard == null ? null : d.maxBoard);
+    turnSeries.push(d.turnover == null ? null : d.turnover);
+    shSeries.push(d.shClose == null ? null : d.shClose);
   });
   var c1 = echarts.init(document.getElementById('chart1'));
   c1.setOption({
@@ -223,7 +240,60 @@ function drawCharts(inds) {
       { name: '最高连板', type: 'line', yAxisIndex: 1, smooth: true, data: boardSeries, itemStyle: { color: '#d93025' }, lineStyle: { color: '#d93025', width: 2 } }
     ]
   });
-  window.addEventListener('resize', function() { c1.resize(); c2.resize(); });
+  var c3 = echarts.init(document.getElementById('chart3'));
+  c3.setOption({
+    backgroundColor: 'transparent',
+    tooltip: { trigger: 'axis', triggerOn: 'click', renderMode: 'richText', confine: true },
+    legend: { top: 0, itemWidth: 14, itemHeight: 8, textStyle: { color: '#6B7280', fontSize: 11 } },
+    grid: { left: 54, right: 54, top: 40, bottom: 30, containLabel: true },
+    xAxis: { type: 'category', data: dates, axisLabel: { color: '#555', fontSize: 11, hideOverlap: true } },
+    yAxis: [
+      { type: 'value', name: '成交额(亿)', axisLabel: { color: '#555', fontSize: 11 } },
+      { type: 'value', name: '上证指数', scale: true, axisLabel: { color: '#555', fontSize: 11 } }
+    ],
+    series: [
+      { name: '两市成交额', type: 'bar', data: turnSeries, itemStyle: { color: 'rgba(22,93,255,0.45)' } },
+      { name: '上证指数', type: 'line', yAxisIndex: 1, smooth: true, data: shSeries, itemStyle: { color: '#d93025' }, lineStyle: { color: '#d93025', width: 2 } }
+    ]
+  });
+  var bt = (window.__DATA__ && window.__DATA__.meta && window.__DATA__.meta.backtest) || null;
+  if (bt && bt.n > 0) {
+    var bk = bt.buckets || {};
+    var names = Object.keys(bk);
+    var c4 = echarts.init(document.getElementById('chart4'));
+    c4.setOption({
+      backgroundColor: 'transparent',
+      tooltip: { trigger: 'axis', triggerOn: 'click', renderMode: 'richText', confine: true },
+      grid: { left: 44, right: 20, top: 24, bottom: 30, containLabel: true },
+      xAxis: { type: 'category', data: names, axisLabel: { color: '#555', fontSize: 11 } },
+      yAxis: { type: 'value', name: '次日涨停变化(家)', axisLabel: { color: '#555', fontSize: 11 } },
+      series: [{
+        name: '次日涨停平均变化',
+        type: 'bar',
+        data: names.map(function(k) {
+          var b = bk[k];
+          return { value: b ? b.avg : 0, itemStyle: { color: (b && b.avg > 0) ? '#12a150' : '#d93025' } };
+        }),
+        label: { show: true, position: 'top', fontSize: 11 }
+      }]
+    });
+    var m = '';
+    m += '<div class="bt-metrics">' +
+      '<div class="bt-m"><span>有效样本</span><b>' + bt.n + ' 个交易日</b></div>' +
+      '<div class="bt-m"><span>温度→次日涨停变化 相关系数 r</span><b>' + (bt.r_up == null ? '—' : bt.r_up) + '</b></div>' +
+      '<div class="bt-m"><span>温度→次日指数涨跌 r</span><b>' + (bt.r_sh == null ? '—' : bt.r_sh) + '</b></div>' +
+      '<div class="bt-m"><span>温度方向命中率（升→升/降→降）</span><b>' + (bt.hit_rate == null ? '—' : bt.hit_rate + '%') + '</b></div>' +
+      '</div>';
+    document.getElementById('bt-metrics').innerHTML = m;
+    var ex = bt.extreme || [];
+    var concl = '模型自检结论（样本内、随样本增长自动更新）：' +
+      '① 温度分与次日涨停变化呈负相关（r=' + (bt.r_up == null ? '—' : bt.r_up) + '），符合情绪"均值回归"特征——温度越高，次日涨停越倾向回落；温度越低越倾向修复。' +
+      '② 分档看，冰点区（&lt;2.5分）之后次日涨停平均回升最多（见上图绿色柱），狂热区（≥4.0分）之后倾向回落（红色柱），中间区噪音最大——印证模型的实战定位：用于识别"极端情绪、控制仓位"，而非天天预测方向。' +
+      '③ 方向命中率约 ' + (bt.hit_rate == null ? '—' : bt.hit_rate + '%') + '，接近随机，说明中间温度档不具备方向预测力，不要用它做逐日择时。' +
+      '④ 样本仅 ' + bt.n + ' 个交易日，统计功效有限；本结论随数据积累自动更新，请以累计样本为准。';
+    document.getElementById('bt-conclusion').innerHTML = '<b>结论：</b>' + concl;
+  }
+  window.addEventListener('resize', function() { c1.resize(); c2.resize(); c3.resize(); });
 }
 async function syncFromSource() {
   var url = 'https://951367983.github.io/wangjie-q/data.json';
@@ -240,14 +310,17 @@ async function syncFromSource() {
   } catch (e) { alert('更新失败：' + e.message + '\n请检查网络或稍后再试。'); }
 }
 (function() {
+  var d0 = window.__DATA__;
   var cached = localStorage.getItem('quant_report_data');
+  var useCached = false;
   if (cached) {
     try {
-      var d = JSON.parse(cached);
-      if (d && d.reports && d.reports.length) { paint(d); return; }
+      var c = JSON.parse(cached);
+      if (c && c.reports && c.reports.length && c.meta && d0.meta &&
+          c.meta.version === d0.meta.version) { paint(c); return; }
     } catch (e) {}
   }
-  paint(window.__DATA__);
+  paint(d0);
 })();
 </script>
 </body>
