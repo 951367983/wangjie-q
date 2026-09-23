@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "守中课堂卡尔每日量化策略报告",
-    "updated": "2026-09-23 09:38",
+    "updated": "2026-09-23 10:00",
     "count": 1
   },
   "reports": [
@@ -9,11 +9,24 @@
       "date": "2026-09-22",
       "dateLabel": "2026年09月22日 周二",
       "mood": {
-        "label": "平淡",
-        "shortTerm": "退潮分歧",
-        "features": "两市成交2.15万亿放量滞涨；63股涨停、18股炸板、封板率78%；连板晋级率降至33.33%；最高标华瓷股份6连板、内蒙新华5连板、南华生物4连板；全市场超3000只个股下跌，华字辈个股如期大分歧。",
+        "auto": true,
+        "label": "乐观",
+        "shortTerm": "高位分歧",
+        "features": "两市成交2.15万亿放量滞涨；64股涨停、5股跌停、28股炸板、封板率69.6%；最高标华瓷股份6连板、内蒙新华5连板、南华生物4连板；全市场超3000只个股下跌，华字辈个股如期大分歧。量化温度3.67分（乐观档），较9/21高潮4.17分回落。",
         "warning": "高位股分歧加剧，谨防连板高度进一步压缩与缩量板接力失败；放量滞涨下追高容错率低，回避非主线高位接力。",
-        "strategy": "聚焦AI应用/传媒主线核心分歧低吸，博弈分歧转一致节点；控制仓位在中等水平，规避高位断板风险，等待晋级率回升信号。"
+        "strategy": "聚焦AI应用/传媒主线核心分歧低吸，博弈分歧转一致节点；仓位按乐观档中等偏上控制，规避高位断板风险，等待晋级率回升信号。",
+        "level": 4,
+        "score": 3.67,
+        "levels": {
+          "涨停家数": 3,
+          "跌停家数": 3,
+          "封板率": 3,
+          "最高连板": 5,
+          "上涨占比": 3,
+          "两市成交额": 5
+        },
+        "window_size": 16,
+        "indicators_used": 6
       },
       "boardStrength": {
         "sector": "传媒 / AI应用",
@@ -172,16 +185,210 @@
       ],
       "position": {
         "riskPref": "中",
-        "moodTemp": "中",
+        "moodTemp": "中偏高（乐观档）",
         "ndx": "好",
-        "level": "L2谨慎",
-        "range": "30%–50%（锚点40%）"
+        "level": "L3积极",
+        "range": "50%–70%（锚点60%）"
       },
       "summary": {
         "index": "震荡（沪指3952点冲高回落，两市2.15万亿放量滞涨）",
         "style": "科技轮动、权重护盘、个股分化",
         "mainline": "AI应用 / 传媒（华字辈分歧后资金聚焦AI应用端）"
       }
+    }
+  ],
+  "indicators": [
+    {
+      "date": "2026-09-01",
+      "upCount": 83,
+      "downCount": 0,
+      "brokenCount": 6,
+      "sealRate": 93.3,
+      "maxBoard": 7,
+      "upRatio": 62.4,
+      "turnover": 20524.03,
+      "note": "炸板6 封板率93.3% 涨3386/跌2040",
+      "moodScore": null
+    },
+    {
+      "date": "2026-09-02",
+      "upCount": 52,
+      "downCount": 9,
+      "brokenCount": null,
+      "sealRate": null,
+      "maxBoard": null,
+      "upRatio": 28.3,
+      "turnover": 17911.78,
+      "note": "涨1541/跌3901",
+      "moodScore": 2.5
+    },
+    {
+      "date": "2026-09-03",
+      "upCount": 46,
+      "downCount": 17,
+      "brokenCount": null,
+      "sealRate": null,
+      "maxBoard": null,
+      "upRatio": 34.1,
+      "turnover": 17589.16,
+      "note": "涨1846/跌3570",
+      "moodScore": 2.5
+    },
+    {
+      "date": "2026-09-04",
+      "upCount": 41,
+      "downCount": 9,
+      "brokenCount": null,
+      "sealRate": null,
+      "maxBoard": null,
+      "upRatio": 45.6,
+      "turnover": 20306.68,
+      "note": "涨2444/跌2914",
+      "moodScore": 3.0
+    },
+    {
+      "date": "2026-09-07",
+      "upCount": 94,
+      "downCount": 2,
+      "brokenCount": null,
+      "sealRate": null,
+      "maxBoard": null,
+      "upRatio": 59.0,
+      "turnover": 19460.19,
+      "note": "涨3167/跌2196",
+      "moodScore": 3.75
+    },
+    {
+      "date": "2026-09-08",
+      "upCount": 74,
+      "downCount": 1,
+      "brokenCount": null,
+      "sealRate": null,
+      "maxBoard": null,
+      "upRatio": 62.8,
+      "turnover": 19603.35,
+      "note": "涨3417/跌2026",
+      "moodScore": 3.5
+    },
+    {
+      "date": "2026-09-09",
+      "upCount": 49,
+      "downCount": 9,
+      "brokenCount": 27,
+      "sealRate": 64.5,
+      "maxBoard": 5,
+      "upRatio": null,
+      "turnover": 18556.07,
+      "note": "炸板27 封板率64.5% 连板15",
+      "moodScore": 2.8
+    },
+    {
+      "date": "2026-09-10",
+      "upCount": 39,
+      "downCount": 14,
+      "brokenCount": 22,
+      "sealRate": 63.9,
+      "maxBoard": 4,
+      "upRatio": null,
+      "turnover": 16471.48,
+      "note": "炸板22 封板率63.9% 连板9",
+      "moodScore": 2.4
+    },
+    {
+      "date": "2026-09-11",
+      "upCount": 40,
+      "downCount": 21,
+      "brokenCount": 18,
+      "sealRate": 69.0,
+      "maxBoard": 4,
+      "upRatio": null,
+      "turnover": 19718.98,
+      "note": "炸板18 封板率69.0% 连板7",
+      "moodScore": 2.8
+    },
+    {
+      "date": "2026-09-14",
+      "upCount": 57,
+      "downCount": 18,
+      "brokenCount": 30,
+      "sealRate": 65.5,
+      "maxBoard": 4,
+      "upRatio": null,
+      "turnover": 16291.76,
+      "note": "炸板30 封板率65.5% 连板11",
+      "moodScore": 2.6
+    },
+    {
+      "date": "2026-09-15",
+      "upCount": 32,
+      "downCount": 34,
+      "brokenCount": 24,
+      "sealRate": 57.1,
+      "maxBoard": 5,
+      "upRatio": null,
+      "turnover": 16127.17,
+      "note": "炸板24 封板率57.1% 连板7",
+      "moodScore": 1.8
+    },
+    {
+      "date": "2026-09-16",
+      "upCount": 91,
+      "downCount": 4,
+      "brokenCount": 11,
+      "sealRate": 89.2,
+      "maxBoard": 6,
+      "upRatio": null,
+      "turnover": 18391.22,
+      "note": "炸板11 封板率89.2% 连板12",
+      "moodScore": 3.8
+    },
+    {
+      "date": "2026-09-17",
+      "upCount": 50,
+      "downCount": 2,
+      "brokenCount": 20,
+      "sealRate": 71.4,
+      "maxBoard": 5,
+      "upRatio": 47.7,
+      "turnover": 18231.34,
+      "note": "炸板20 封板率71.4% 连板9",
+      "moodScore": 3.33
+    },
+    {
+      "date": "2026-09-18",
+      "upCount": 79,
+      "downCount": 1,
+      "brokenCount": 25,
+      "sealRate": 76.0,
+      "maxBoard": 4,
+      "upRatio": null,
+      "turnover": 20771.0,
+      "note": "炸板25 封板率76.0% 连板12",
+      "moodScore": 4.0
+    },
+    {
+      "date": "2026-09-21",
+      "upCount": 104,
+      "downCount": 3,
+      "brokenCount": 25,
+      "sealRate": 80.6,
+      "maxBoard": 5,
+      "upRatio": 82.9,
+      "turnover": 20315.13,
+      "note": "炸板25 封板率80.6% 连板24",
+      "moodScore": 4.17
+    },
+    {
+      "date": "2026-09-22",
+      "upCount": 64,
+      "downCount": 5,
+      "brokenCount": 28,
+      "sealRate": 69.6,
+      "maxBoard": 6,
+      "upRatio": 43.9,
+      "turnover": 21355.5,
+      "note": "炸板28 封板率69.6% 涨2374/跌3029",
+      "moodScore": 3.67
     }
   ]
 }

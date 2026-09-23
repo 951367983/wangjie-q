@@ -8,7 +8,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
          background: #f4f5f7; color: #1f2329; line-height: 1.6; }
-  .page { max-width: 980px; margin: 0 auto; padding: 20px 16px 60px; }
+  .page { max-width: 1020px; margin: 0 auto; padding: 20px 16px 60px; }
   .topbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
              border-bottom: 2px solid #1f2329; padding-bottom: 12px; margin-bottom: 16px; }
   h1 { font-size: 22px; }
@@ -31,6 +31,7 @@
   .card { background: #fff; border-radius: 10px; padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,.06);
            margin-bottom: 14px; }
   .card h3 { font-size: 15px; margin-bottom: 10px; padding-left: 9px; border-left: 4px solid #1f2329; }
+  .card h4 { font-size: 13.5px; margin: 12px 0 8px; color: #4e5969; }
   .kv-list { list-style: none; }
   .kv-list li { font-size: 13.5px; padding: 4px 0; }
   .kv-list b { color: #1f2329; }
@@ -57,10 +58,20 @@
   .sum-item { flex: 1; min-width: 150px; background: #f7f8fa; border-radius: 8px; padding: 10px 14px; }
   .sum-item span { display: block; font-size: 12px; color: #86909c; }
   .sum-item b { font-size: 15px; }
+  .chart-box { background: #fff; border-radius: 10px; padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,.06);
+                margin-bottom: 14px; }
+  .chart-box h3 { font-size: 15px; margin-bottom: 6px; padding-left: 9px; border-left: 4px solid #1f2329; }
+  .chart-note { font-size: 12px; color: #86909c; margin-bottom: 8px; }
+  .chart { width: 100%; height: 340px; }
+  .level-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-top: 10px; }
+  .level-item { background: #f7f8fa; border-radius: 8px; padding: 8px 12px; font-size: 13px; display: flex;
+                 justify-content: space-between; }
+  .level-item b { color: #165dff; }
   .footer { text-align: center; color: #86909c; font-size: 12px; margin-top: 30px; }
   .update-btn { background: #165dff; color: #fff; border: none; border-radius: 6px; padding: 8px 18px;
                  font-size: 13px; cursor: pointer; }
   .update-btn:hover { background: #0e42d2; }
+  @media (max-width: 640px) { .chart { height: 300px; } }
 </style>
 </head>
 <body>
@@ -68,16 +79,25 @@
   <div class="topbar">
     <div>
       <h1>守中课堂卡尔每日量化策略报告</h1>
-      <div class="meta-line">数据更新：2026-09-23 09:38 ｜ 共 1 期 ｜ <button class="update-btn" onclick="syncFromSource()">⟳ 从数据源更新</button></div>
+      <div class="meta-line">数据更新：2026-09-23 10:00 ｜ 共 1 期 ｜ 情绪样本 16 个交易日 ｜ <button class="update-btn" onclick="syncFromSource()">⟳ 从数据源更新</button></div>
     </div>
   </div>
   <div class="disclaimer">重要声明：本报告基于量化模型多维度评分生成，仅供学员学习和研究使用。本报告所有观点不构成任何买卖建议、投资意见或对未来收益的保证。投资者应独立进行投资决策，盈亏自负。请结合《量化报告使用手册》阅读。</div>
   <div class="tabs" id="tabs"></div>
   <div id="reports"></div>
-  <div class="footer">守中课堂 · 卡尔量化策略 · 每日自动更新</div>
+  <div class="chart-box">
+    <h3>短线情绪趋势图（近30个交易日）</h3>
+    <div class="chart-note">数据来源：金融界涨跌停温度计、三才聚A股超短线复盘（公开复盘数据，口径以金融界涨停/跌停/成交额为主）。情绪温度=6项指标滚动分位数等权平均（1-5分）。</div>
+    <div id="chart1" class="chart"></div>
+    <div class="chart-note" style="margin-top:14px;">封板率 = 涨停 ÷（涨停+炸板）；最高连板为当日市场最高板高度。缺失日期因当日公开复盘未披露该指标，趋势线自动断开。</div>
+    <div id="chart2" class="chart"></div>
+    <noscript><div class="pool-empty">请启用 JavaScript 以查看趋势图；报告正文不受影响。</div></noscript>
+  </div>
+  <div class="footer">守中课堂 · 卡尔量化策略 · 每日自动更新 · 仅供学习研究，不构成投资建议</div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 <script>
-window.__DATA__ = {"meta": {"title": "守中课堂卡尔每日量化策略报告", "updated": "2026-09-23 09:38", "count": 1}, "reports": [{"date": "2026-09-22", "dateLabel": "2026年09月22日 周二", "mood": {"label": "平淡", "shortTerm": "退潮分歧", "features": "两市成交2.15万亿放量滞涨；63股涨停、18股炸板、封板率78%；连板晋级率降至33.33%；最高标华瓷股份6连板、内蒙新华5连板、南华生物4连板；全市场超3000只个股下跌，华字辈个股如期大分歧。", "warning": "高位股分歧加剧，谨防连板高度进一步压缩与缩量板接力失败；放量滞涨下追高容错率低，回避非主线高位接力。", "strategy": "聚焦AI应用/传媒主线核心分歧低吸，博弈分歧转一致节点；控制仓位在中等水平，规避高位断板风险，等待晋级率回升信号。"}, "boardStrength": {"sector": "传媒 / AI应用", "note": "广告营销、传媒、通信服务、IT服务、软件开发等数字科技板块涨幅居前，AI产业链延续高景气。"}, "hotSectors": [{"name": "AI应用", "stocks": ["南威软件", "智度股份", "新炬网络", "中新赛克"]}, {"name": "算力芯片", "stocks": ["旋极信息", "禾盛新材", "综艺股份"]}, {"name": "传媒出版", "stocks": ["内蒙新华", "新华文轩", "引力传媒"]}, {"name": "医药", "stocks": ["南华生物", "哈药股份", "新华制药"]}, {"name": "家居用品", "stocks": ["华瓷股份", "梦天家居", "爱丽家居"]}], "coldSectors": [{"name": "航运港口", "stocks": ["招商轮船", "招商南油"]}, {"name": "旅游", "stocks": ["西域旅游", "丽江股份"]}, {"name": "军工", "stocks": ["中航沈飞", "航发动力"]}], "newHighPool": [{"name": "五洲医疗", "industry": "医疗器械", "score": "⭐⭐"}, {"name": "中石科技", "industry": "消费电子", "score": "⭐"}, {"name": "金健米业", "industry": "农业", "score": "⭐"}], "nearNewHighPool": [{"name": "哈药股份", "industry": "医药", "score": "⭐"}, {"name": "一鸣食品", "industry": "消费", "score": "⭐"}, {"name": "艾艾精工", "industry": "化工", "score": "⭐"}], "longYangPool": [{"name": "南华生物", "industry": "医药", "score": "⭐⭐"}, {"name": "江淮汽车", "industry": "汽车整车", "score": "⭐"}], "jumpGapPool": [{"name": "旋极信息", "industry": "算力芯片", "score": "⭐"}], "tempPool": [{"name": "旋极信息", "industry": "算力芯片", "score": "无"}, {"name": "南威软件", "industry": "AI应用", "score": "无"}, {"name": "江淮汽车", "industry": "汽车整车", "score": "无"}, {"name": "华瓷股份", "industry": "家居用品", "score": "无"}, {"name": "内蒙新华", "industry": "传媒", "score": "无"}, {"name": "南华生物", "industry": "医药", "score": "无"}], "position": {"riskPref": "中", "moodTemp": "中", "ndx": "好", "level": "L2谨慎", "range": "30%–50%（锚点40%）"}, "summary": {"index": "震荡（沪指3952点冲高回落，两市2.15万亿放量滞涨）", "style": "科技轮动、权重护盘、个股分化", "mainline": "AI应用 / 传媒（华字辈分歧后资金聚焦AI应用端）"}}]};
+window.__DATA__ = {"meta": {"title": "守中课堂卡尔每日量化策略报告", "updated": "2026-09-23 10:00", "count": 1}, "reports": [{"date": "2026-09-22", "dateLabel": "2026年09月22日 周二", "mood": {"auto": true, "label": "乐观", "shortTerm": "高位分歧", "features": "两市成交2.15万亿放量滞涨；64股涨停、5股跌停、28股炸板、封板率69.6%；最高标华瓷股份6连板、内蒙新华5连板、南华生物4连板；全市场超3000只个股下跌，华字辈个股如期大分歧。量化温度3.67分（乐观档），较9/21高潮4.17分回落。", "warning": "高位股分歧加剧，谨防连板高度进一步压缩与缩量板接力失败；放量滞涨下追高容错率低，回避非主线高位接力。", "strategy": "聚焦AI应用/传媒主线核心分歧低吸，博弈分歧转一致节点；仓位按乐观档中等偏上控制，规避高位断板风险，等待晋级率回升信号。", "level": 4, "score": 3.67, "levels": {"涨停家数": 3, "跌停家数": 3, "封板率": 3, "最高连板": 5, "上涨占比": 3, "两市成交额": 5}, "window_size": 16, "indicators_used": 6}, "boardStrength": {"sector": "传媒 / AI应用", "note": "广告营销、传媒、通信服务、IT服务、软件开发等数字科技板块涨幅居前，AI产业链延续高景气。"}, "hotSectors": [{"name": "AI应用", "stocks": ["南威软件", "智度股份", "新炬网络", "中新赛克"]}, {"name": "算力芯片", "stocks": ["旋极信息", "禾盛新材", "综艺股份"]}, {"name": "传媒出版", "stocks": ["内蒙新华", "新华文轩", "引力传媒"]}, {"name": "医药", "stocks": ["南华生物", "哈药股份", "新华制药"]}, {"name": "家居用品", "stocks": ["华瓷股份", "梦天家居", "爱丽家居"]}], "coldSectors": [{"name": "航运港口", "stocks": ["招商轮船", "招商南油"]}, {"name": "旅游", "stocks": ["西域旅游", "丽江股份"]}, {"name": "军工", "stocks": ["中航沈飞", "航发动力"]}], "newHighPool": [{"name": "五洲医疗", "industry": "医疗器械", "score": "⭐⭐"}, {"name": "中石科技", "industry": "消费电子", "score": "⭐"}, {"name": "金健米业", "industry": "农业", "score": "⭐"}], "nearNewHighPool": [{"name": "哈药股份", "industry": "医药", "score": "⭐"}, {"name": "一鸣食品", "industry": "消费", "score": "⭐"}, {"name": "艾艾精工", "industry": "化工", "score": "⭐"}], "longYangPool": [{"name": "南华生物", "industry": "医药", "score": "⭐⭐"}, {"name": "江淮汽车", "industry": "汽车整车", "score": "⭐"}], "jumpGapPool": [{"name": "旋极信息", "industry": "算力芯片", "score": "⭐"}], "tempPool": [{"name": "旋极信息", "industry": "算力芯片", "score": "无"}, {"name": "南威软件", "industry": "AI应用", "score": "无"}, {"name": "江淮汽车", "industry": "汽车整车", "score": "无"}, {"name": "华瓷股份", "industry": "家居用品", "score": "无"}, {"name": "内蒙新华", "industry": "传媒", "score": "无"}, {"name": "南华生物", "industry": "医药", "score": "无"}], "position": {"riskPref": "中", "moodTemp": "中偏高（乐观档）", "ndx": "好", "level": "L3积极", "range": "50%–70%（锚点60%）"}, "summary": {"index": "震荡（沪指3952点冲高回落，两市2.15万亿放量滞涨）", "style": "科技轮动、权重护盘、个股分化", "mainline": "AI应用 / 传媒（华字辈分歧后资金聚焦AI应用端）"}}], "indicators": [{"date": "2026-09-01", "upCount": 83, "downCount": 0, "brokenCount": 6, "sealRate": 93.3, "maxBoard": 7, "upRatio": 62.4, "turnover": 20524.03, "note": "炸板6 封板率93.3% 涨3386/跌2040", "moodScore": null}, {"date": "2026-09-02", "upCount": 52, "downCount": 9, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 28.3, "turnover": 17911.78, "note": "涨1541/跌3901", "moodScore": 2.5}, {"date": "2026-09-03", "upCount": 46, "downCount": 17, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 34.1, "turnover": 17589.16, "note": "涨1846/跌3570", "moodScore": 2.5}, {"date": "2026-09-04", "upCount": 41, "downCount": 9, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 45.6, "turnover": 20306.68, "note": "涨2444/跌2914", "moodScore": 3.0}, {"date": "2026-09-07", "upCount": 94, "downCount": 2, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 59.0, "turnover": 19460.19, "note": "涨3167/跌2196", "moodScore": 3.75}, {"date": "2026-09-08", "upCount": 74, "downCount": 1, "brokenCount": null, "sealRate": null, "maxBoard": null, "upRatio": 62.8, "turnover": 19603.35, "note": "涨3417/跌2026", "moodScore": 3.5}, {"date": "2026-09-09", "upCount": 49, "downCount": 9, "brokenCount": 27, "sealRate": 64.5, "maxBoard": 5, "upRatio": null, "turnover": 18556.07, "note": "炸板27 封板率64.5% 连板15", "moodScore": 2.8}, {"date": "2026-09-10", "upCount": 39, "downCount": 14, "brokenCount": 22, "sealRate": 63.9, "maxBoard": 4, "upRatio": null, "turnover": 16471.48, "note": "炸板22 封板率63.9% 连板9", "moodScore": 2.4}, {"date": "2026-09-11", "upCount": 40, "downCount": 21, "brokenCount": 18, "sealRate": 69.0, "maxBoard": 4, "upRatio": null, "turnover": 19718.98, "note": "炸板18 封板率69.0% 连板7", "moodScore": 2.8}, {"date": "2026-09-14", "upCount": 57, "downCount": 18, "brokenCount": 30, "sealRate": 65.5, "maxBoard": 4, "upRatio": null, "turnover": 16291.76, "note": "炸板30 封板率65.5% 连板11", "moodScore": 2.6}, {"date": "2026-09-15", "upCount": 32, "downCount": 34, "brokenCount": 24, "sealRate": 57.1, "maxBoard": 5, "upRatio": null, "turnover": 16127.17, "note": "炸板24 封板率57.1% 连板7", "moodScore": 1.8}, {"date": "2026-09-16", "upCount": 91, "downCount": 4, "brokenCount": 11, "sealRate": 89.2, "maxBoard": 6, "upRatio": null, "turnover": 18391.22, "note": "炸板11 封板率89.2% 连板12", "moodScore": 3.8}, {"date": "2026-09-17", "upCount": 50, "downCount": 2, "brokenCount": 20, "sealRate": 71.4, "maxBoard": 5, "upRatio": 47.7, "turnover": 18231.34, "note": "炸板20 封板率71.4% 连板9", "moodScore": 3.33}, {"date": "2026-09-18", "upCount": 79, "downCount": 1, "brokenCount": 25, "sealRate": 76.0, "maxBoard": 4, "upRatio": null, "turnover": 20771.0, "note": "炸板25 封板率76.0% 连板12", "moodScore": 4.0}, {"date": "2026-09-21", "upCount": 104, "downCount": 3, "brokenCount": 25, "sealRate": 80.6, "maxBoard": 5, "upRatio": 82.9, "turnover": 20315.13, "note": "炸板25 封板率80.6% 连板24", "moodScore": 4.17}, {"date": "2026-09-22", "upCount": 64, "downCount": 5, "brokenCount": 28, "sealRate": 69.6, "maxBoard": 6, "upRatio": 43.9, "turnover": 21355.5, "note": "炸板28 封板率69.6% 涨2374/跌3029", "moodScore": 3.67}]};
 const MOODS = {
   "狂热": { color:"#d93025", bg:"#fdecea", desc:"巅峰狂热 / 非理性亢奋", action:"风控第一，专业减法：高位保护、锁定利润、分批止盈" },
   "乐观": { color:"#e8710a", bg:"#fef3e7", desc:"趋势良好 / 理性乐观", action:"顺势而为，聚焦主线：享受趋势，警惕拐点" },
@@ -86,6 +106,7 @@ const MOODS = {
   "冰点": { color:"#5f6368", bg:"#eef1f3", desc:"极度恐惧 / 非理性恐慌", action:"量化抄底，分批买入：恐慌见底，左侧布局" }
 };
 function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmt(v, d) { return (v == null || isNaN(v)) ? (d || '—') : v; }
 function poolTable(pool, empty) {
   if (!pool || !pool.length) return '<div class="pool-empty">' + (empty || '暂无') + '</div>';
   return '<table class="pool-table"><thead><tr><th>股票名称</th><th>行业</th><th>量化评分</th></tr></thead><tbody>' +
@@ -99,20 +120,31 @@ function sectorList(sectors) {
 }
 function kvBlock(title, items) {
   return '<div class="card"><h3>' + title + '</h3><ul class="kv-list">' +
-    items.map(([k, v]) => '<li><b>' + esc(k) + '：</b>' + esc(v) + '</li>').join('') + '</ul></div>';
+    items.map(function(p) { return '<li><b>' + esc(p[0]) + '：</b>' + esc(p[1]) + '</li>'; }).join('') + '</ul></div>';
+}
+function moodDetail(r) {
+  var m = r.mood || {};
+  if (!m.levels) return '';
+  var names = { upCount:'涨停家数', downCount:'跌停家数', sealRate:'封板率', maxBoard:'最高连板', upRatio:'上涨占比', turnover:'两市成交额' };
+  var items = Object.keys(m.levels || {}).map(function(k) {
+    var v = m.levels[k];
+    return '<div class="level-item"><span>' + esc(k) + '</span><b>' + fmt(v) + '分</b></div>';
+  }).join('');
+  return '<h4>情绪温度分项（1-5分，样本 ' + fmt(m.window_size) + ' 个交易日滚动分位）</h4><div class="level-grid">' + items + '</div>';
 }
 function renderReport(r) {
-  const m = r.mood || {};
-  const ms = MOODS[m.label] || MOODS["平淡"];
-  const pos = r.position || {};
-  const sum = r.summary || {};
-  const bs = r.boardStrength || {};
+  var m = r.mood || {};
+  var ms = MOODS[m.label] || MOODS["平淡"];
+  var pos = r.position || {};
+  var sum = r.summary || {};
+  var bs = r.boardStrength || {};
+  var scoreTag = m.score != null ? '（量化' + m.score + '分）' : '';
   return '<section class="report" data-date="' + esc(r.date) + '">' +
     '<div class="report-head"><div class="report-date">' + esc(r.dateLabel || r.date) + '</div>' +
-    '<div class="mood-badge" style="background:' + ms.bg + ';color:' + ms.color + ';border-color:' + ms.color + '">当日市场量化情绪 · ' + esc(m.label || '—') + '</div></div>' +
+    '<div class="mood-badge" style="background:' + ms.bg + ';color:' + ms.color + ';border-color:' + ms.color + '">当日市场量化情绪 · ' + esc(m.label || '—') + scoreTag + '</div></div>' +
     '<div class="mood-strip"><div class="mood-desc">' + esc(ms.desc) + '</div><div class="mood-action">' + esc(ms.action) + '</div></div>' +
     kvBlock('一、量化情绪点评', [['短线定性', m.shortTerm], ['短线特征', m.features], ['风险警示', m.warning], ['策略指导', m.strategy]]) +
-    '<div class="card"><h3>二、板块强度</h3><div class="board-strength"><span class="bs-label">强势板块</span><span class="bs-value">' + esc(bs.sector) + '</span><span class="bs-label">说明</span><span class="bs-value">' + esc(bs.note) + '</span></div></div>' +
+    '<div class="card"><h3>二、板块强度</h3><div class="board-strength"><span class="bs-label">强势板块</span><span class="bs-value">' + esc(bs.sector) + '</span><span class="bs-label">说明</span><span class="bs-value">' + esc(bs.note) + '</span></div>' + moodDetail(r) + '</div>' +
     '<div class="card"><h3>三、热点板块</h3><div class="sectors">' + sectorList(r.hotSectors) + '</div></div>' +
     '<div class="card"><h3>四、冰点板块</h3><div class="sectors">' + sectorList(r.coldSectors) + '</div></div>' +
     '<div class="card"><h3>五、新高观察池</h3>' + poolTable(r.newHighPool) + '</div>' +
@@ -133,35 +165,85 @@ function renderReport(r) {
     '</section>';
 }
 function paint(data) {
-  const reports = data.reports || [];
-  document.getElementById('tabs').innerHTML = reports.map((r, i) =>
-    '<button class="tab' + (i === 0 ? ' active' : '') + '" onclick="showReport(\'' + esc(r.date) + '\')">' + esc(r.date) + '</button>').join('');
+  var reports = data.reports || [];
+  document.getElementById('tabs').innerHTML = reports.map(function(r, i) {
+    return '<button class="tab' + (i === 0 ? ' active' : '') + '" onclick="showReport(\'' + esc(r.date) + '\')">' + esc(r.date) + '</button>';
+  }).join('');
   document.getElementById('reports').innerHTML = reports.map(renderReport).join('');
   if (reports.length) showReport(reports[0].date);
+  drawCharts(data.indicators || []);
 }
 function showReport(date) {
-  document.querySelectorAll('.report').forEach(s => { s.style.display = s.getAttribute('data-date') === date ? 'block' : 'none'; });
-  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.textContent.trim() === date));
+  var rs = document.querySelectorAll('.report');
+  for (var i = 0; i < rs.length; i++) rs[i].style.display = rs[i].getAttribute('data-date') === date ? 'block' : 'none';
+  var ts = document.querySelectorAll('.tab');
+  for (var j = 0; j < ts.length; j++) ts[j].classList.toggle('active', ts[j].textContent.trim() === date);
+}
+function drawCharts(inds) {
+  if (typeof echarts === 'undefined') return;
+  var days = inds.slice(-30);
+  var dates = days.map(function(d) { return String(d.date).slice(5); });
+  var moodSeries = [], upSeries = [], sealSeries = [], boardSeries = [];
+  days.forEach(function(d) {
+    var sc = d.moodScore;
+    moodSeries.push(sc == null ? null : sc);
+    upSeries.push(d.upCount == null ? null : d.upCount);
+    sealSeries.push(d.sealRate == null ? null : d.sealRate);
+    boardSeries.push(d.maxBoard == null ? null : d.maxBoard);
+  });
+  var c1 = echarts.init(document.getElementById('chart1'));
+  c1.setOption({
+    backgroundColor: 'transparent',
+    tooltip: { trigger: 'axis', triggerOn: 'click', renderMode: 'richText', confine: true },
+    legend: { top: 0, itemWidth: 14, itemHeight: 8, textStyle: { color: '#6B7280', fontSize: 11 } },
+    grid: { left: 44, right: 54, top: 40, bottom: 30, containLabel: true },
+    xAxis: { type: 'category', data: dates, axisLabel: { color: '#555', fontSize: 11, hideOverlap: true } },
+    yAxis: [
+      { type: 'value', name: '温度(1-5)', min: 0, max: 5, splitLine: { lineStyle: { type: 'dashed' } }, axisLabel: { color: '#555', fontSize: 11 } },
+      { type: 'value', name: '涨停家数', axisLabel: { color: '#555', fontSize: 11 } }
+    ],
+    series: [
+      { name: '情绪温度', type: 'line', smooth: true, data: moodSeries, itemStyle: { color: '#165dff' }, lineStyle: { color: '#165dff', width: 2 }, areaStyle: { color: 'rgba(22,93,255,0.12)' }, z: 5 },
+      { name: '涨停家数', type: 'bar', yAxisIndex: 1, data: upSeries, itemStyle: { color: 'rgba(245,154,35,0.55)' } }
+    ]
+  });
+  var c2 = echarts.init(document.getElementById('chart2'));
+  c2.setOption({
+    backgroundColor: 'transparent',
+    tooltip: { trigger: 'axis', triggerOn: 'click', renderMode: 'richText', confine: true },
+    legend: { top: 0, itemWidth: 14, itemHeight: 8, textStyle: { color: '#6B7280', fontSize: 11 } },
+    grid: { left: 44, right: 54, top: 40, bottom: 30, containLabel: true },
+    xAxis: { type: 'category', data: dates, axisLabel: { color: '#555', fontSize: 11, hideOverlap: true } },
+    yAxis: [
+      { type: 'value', name: '封板率(%)', min: 0, max: 100, axisLabel: { color: '#555', fontSize: 11 } },
+      { type: 'value', name: '最高板', min: 0, maxInterval: 2, axisLabel: { color: '#555', fontSize: 11 } }
+    ],
+    series: [
+      { name: '封板率', type: 'line', smooth: true, connectNulls: false, data: sealSeries, itemStyle: { color: '#12a150' }, lineStyle: { color: '#12a150', width: 2 } },
+      { name: '最高连板', type: 'line', yAxisIndex: 1, smooth: true, data: boardSeries, itemStyle: { color: '#d93025' }, lineStyle: { color: '#d93025', width: 2 } }
+    ]
+  });
+  window.addEventListener('resize', function() { c1.resize(); c2.resize(); });
 }
 async function syncFromSource() {
-  const url = 'https://951367983.github.io/wangjie-q/data.json';
+  var url = 'https://951367983.github.io/wangjie-q/data.json';
   try {
-    const resp = await fetch(url + '?v=' + Date.now());
+    var resp = await fetch(url + '?v=' + Date.now());
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    const remote = await resp.json();
+    var remote = await resp.json();
     if (remote && remote.reports && remote.reports.length) {
       localStorage.setItem('quant_report_data', JSON.stringify(remote));
       paint(remote);
-      document.querySelector('.meta-line').textContent = '数据更新：' + (remote.meta ? remote.meta.updated : '') + ' ｜ 共 ' + remote.reports.length + ' 期 ｜ 已同步';
+      document.querySelector('.meta-line').textContent = '数据更新：' + (remote.meta ? remote.meta.updated : '') + ' ｜ 共 ' + remote.reports.length + ' 期 ｜ 情绪样本 ' + (remote.indicators || []).length + ' 个交易日 ｜ 已同步';
       alert('更新完成：已同步 ' + remote.reports.length + ' 期报告。');
     } else throw new Error('数据为空');
   } catch (e) { alert('更新失败：' + e.message + '\n请检查网络或稍后再试。'); }
 }
 (function() {
-  const cached = localStorage.getItem('quant_report_data');
+  var cached = localStorage.getItem('quant_report_data');
   if (cached) {
     try {
-      const d = JSON.parse(cached);
+      var d = JSON.parse(cached);
       if (d && d.reports && d.reports.length) { paint(d); return; }
     } catch (e) {}
   }
