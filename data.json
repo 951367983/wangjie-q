@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "守中课堂卡尔每日量化策略报告",
-    "updated": "2026-11-11 05:35",
+    "updated": "2026-11-11 05:36",
     "count": 28,
     "backtest": {
       "n": 43,
@@ -45,7 +45,7 @@
         }
       ]
     },
-    "version": 1794346542,
+    "version": 1794346579,
     "history_backtest": {
       "updated": "2026-11-10 05:35",
       "start": "2014-07-03",
@@ -131219,9 +131219,9 @@
           "csi1000AboveMA5": true,
           "csi1000NewLow20": false,
           "csi1000Chg": 1.22,
-          "shClose": 3660.79,
-          "shMA5": 3658.83,
-          "shAboveMA5": true,
+          "shClose": 3663.72,
+          "shMA5": 3669.95,
+          "shAboveMA5": false,
           "shNewLow20": false
         }
       }
