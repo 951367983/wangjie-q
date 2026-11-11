@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "守中课堂卡尔每日量化策略报告",
-    "updated": "2026-11-11 08:58",
+    "updated": "2026-11-11 08:59",
     "count": 28,
     "backtest": {
       "n": 43,
@@ -45,7 +45,7 @@
         }
       ]
     },
-    "version": 1794358738,
+    "version": 1794358779,
     "history_backtest": {
       "updated": "2026-11-10 05:35",
       "start": "2014-07-03",
@@ -131619,8 +131619,130 @@
           ]
         }
       ],
-      "newHighPool": [],
-      "nearNewHighPool": [],
+      "newHighPool": [
+        {
+          "name": "福赛科技",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "古井贡酒",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "兆威机电",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "恒帅股份",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "美的集团",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "凡拓数创",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "浙江荣泰",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "兆丰股份",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "日盈电子",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "亚振家居",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "福莱新材",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "新泉股份",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        }
+      ],
+      "nearNewHighPool": [
+        {
+          "name": "鲁阳节能",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "博士眼镜",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "江顺科技",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "创业环保",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "XD长沙银",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "华域汽车",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "ST交昂",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "平安银行",
+          "industry": "距高0.3%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "常熟银行",
+          "industry": "距高0.3%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "光大银行",
+          "industry": "距高0.3%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "成都银行",
+          "industry": "距高0.3%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "XD海螺水",
+          "industry": "距高0.4%",
+          "score": "⭐⭐"
+        }
+      ],
       "longYangPool": [],
       "jumpGapPool": [],
       "tempPool": [
@@ -131808,6 +131930,9 @@
           "shAboveMA5": true,
           "shNewLow20": false
         }
+      },
+      "pools_meta": {
+        "新高口径": "以该交易日为终点、向前60个交易日收盘序列的最高值（用 stock_cache 历史窗口复算）"
       }
     },
     {
@@ -131886,8 +132011,130 @@
           "stocks": []
         }
       ],
-      "newHighPool": [],
-      "nearNewHighPool": [],
+      "newHighPool": [
+        {
+          "name": "兆威机电",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "美的集团",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "凡拓数创",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "汇顶科技",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "润建股份",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "兆丰股份",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "奥雅股份",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "海大集团",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "匠心家居",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "苏 泊 尔",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "牧原股份",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "新媒股份",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        }
+      ],
+      "nearNewHighPool": [
+        {
+          "name": "亚振家居",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "伊利股份",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "中南传媒",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "锦江酒店",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "豪鹏科技",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "华能国际",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "好莱客",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "上海机场",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "北京银行",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "贵阳银行",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "康弘药业",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "美亚光电",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        }
+      ],
       "longYangPool": [],
       "jumpGapPool": [],
       "tempPool": [
@@ -132056,6 +132303,9 @@
             "signs": "若CPI低于预期，黄金的压制会快速解除；当前属'短期让位、中期不撤'"
           }
         ]
+      },
+      "pools_meta": {
+        "新高口径": "以该交易日为终点、向前60个交易日收盘序列的最高值（用 stock_cache 历史窗口复算）"
       }
     },
     {
@@ -132147,8 +132397,130 @@
           "stocks": []
         }
       ],
-      "newHighPool": [],
-      "nearNewHighPool": [],
+      "newHighPool": [
+        {
+          "name": "春风动力",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "兆威机电",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "华是科技",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "安培龙",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "五 粮 液",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "海安集团",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "汇顶科技",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "浙江荣泰",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "浙江鼎力",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "绿联科技",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "豪鹏科技",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        },
+        {
+          "name": "柯力传感",
+          "industry": "创60日新高",
+          "score": "⭐⭐⭐"
+        }
+      ],
+      "nearNewHighPool": [
+        {
+          "name": "博士眼镜",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "古井贡酒",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "九强生物",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "羚锐制药",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "同仁堂",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "上海机场",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "百联股份",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "深圳机场",
+          "industry": "距高0.1%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "罗莱生活",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "长盈精密",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "美亚光电",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        },
+        {
+          "name": "佳都科技",
+          "industry": "距高0.2%",
+          "score": "⭐⭐"
+        }
+      ],
       "longYangPool": [],
       "jumpGapPool": [],
       "tempPool": [],
@@ -132285,6 +132657,9 @@
             "signs": "主线内部'小票涨停潮、大票冲高回落'是反弹初期的典型形态——说明资金是'博弈弹性'而非'配置趋势'。"
           }
         ]
+      },
+      "pools_meta": {
+        "新高口径": "以该交易日为终点、向前60个交易日收盘序列的最高值（用 stock_cache 历史窗口复算）"
       }
     },
     {
